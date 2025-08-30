@@ -2,8 +2,17 @@
 # 2. [ ] Сделать домашку
 # 3. [x] Пробежка утром
 
+import json
 
 tasks = {}
+
+listt = 'tasks.json'
+
+try:
+    with open(listt, "r", encoding = 'utf-8') as f:
+        tasks = json.load(f)
+except FileNotFoundError:
+    tasks = {}
 
 print("Команды: add, list, done, delete, exit")
 
@@ -37,7 +46,7 @@ while True:
             del tasks[task]
             print(f'Task {task} was deleted')
     elif comm == 'exit':
-        print('Exiting ')
+        with open(listt, "w", encoding="utf-8") as f:
+            json.dump(tasks, f, ensure_ascii=False, indent=4)
+        print("Exiting, tasks saved!")
         break
-    else:
-        print('I do not understand you ')
